@@ -1,6 +1,8 @@
-manifest/cache/
-manifest/logs/
-manifest/tmp/
-symphony/
-workspace/uploads/
-install-log.txt
+.git/
+# Transifex
+/.tx/
+#for development in vbox
+/vendor/
+src/vendor/
+src/composer.json
+composer.lock

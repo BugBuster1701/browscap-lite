@@ -1,0 +1,39 @@
+{
+    "name": "bugbuster/browscap-lite",
+    "type":"contao-bundle",
+    "description": "The standalone PHP Browscap parser, lite version of crossjoin/Browscap for BugBuster Botdetection ",
+    "keywords": ["browser", "browscap", "detection"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Glen Langer",
+            "homepage": "https://contao.ninja",
+            "role": "Developer"
+        },
+        {
+            "name": "Christoph Ziegenberg",
+            "email": "ziegenberg@crossjoin.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/BugBuster1701/browscap-lite/issues",
+        "source": "https://github.com/BugBuster1701/browscap-lite"
+    },
+    "require": {
+        "php": "~7.2",
+        "contao/core-bundle": "^4.4"
+    },
+	"require-dev": {
+		"friendsofphp/php-cs-fixer": "^2.12",
+		"phpunit/phpunit": "^7.0"
+	},
+    "autoload": {
+        "psr-4": {
+            "BugBuster\\Browscap\\": "src/"
+        }
+    },
+    "extra": {
+      "contao-manager-plugin": "BugBuster\\Browscap\\ContaoManager\\Plugin"
+    }
+}
