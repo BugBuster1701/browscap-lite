@@ -1,16 +1,28 @@
 <?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of a BugBuster Contao Bundle
+ *
+ * @copyright  Glen Langer 2020 <http://contao.ninja>
+ * @author     Glen Langer (BugBuster)
+ * @author     Christoph Ziegenberg (crossjoin/browscap)
+ * @package    Contao Browscap Lite Bundle
+ * @license    MIT
+ * @see        https://github.com/BugBuster1701/browscap-lite
+ */
+
 namespace BugBuster\Browscap\Updater;
 
 /**
- * FileGetContents updater class
+ * FileGetContents updater class.
  *
  * This class loads the source data using the file_get_contents() function.
  * Please note, that this requires 'allow_url_fopen' set to '1' to work
  * with remote files.
  *
- * @package BugBuster\Browscap
- * @author Christoph Ziegenberg <christoph@ziegenberg.com>
- * @link https://github.com/crossjoin/browscap
+ * @see https://github.com/crossjoin/browscap
  */
 class FileGetContents extends AbstractUpdaterRemote
 {
@@ -18,6 +30,7 @@ class FileGetContents extends AbstractUpdaterRemote
      * FileGetContents constructor.
      *
      * @param null $options
+     *
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
@@ -25,7 +38,7 @@ class FileGetContents extends AbstractUpdaterRemote
     {
         parent::__construct($options);
 
-        if ((bool)(int)ini_get('allow_url_fopen') === false) {
+        if (false === (bool) (int) ini_get('allow_url_fopen')) {
             throw new \RuntimeException("Please activate 'allow_url_fopen'.");
         }
 
@@ -37,11 +50,13 @@ class FileGetContents extends AbstractUpdaterRemote
     }
 
     /**
-     * Gets the data from a given URL (or false on failure)
+     * Gets the data from a given URL (or false on failure).
      *
      * @param string $url
-     * @return string|boolean
+     *
      * @throws \RuntimeException
+     *
+     * @return string|bool
      */
     protected function getRemoteData($url)
     {
@@ -50,19 +65,21 @@ class FileGetContents extends AbstractUpdaterRemote
         set_time_limit($this->getOption('ScriptTimeLimit'));
 
         $context = $this->getStreamContext();
-        $return  = file_get_contents($url, false, $context);
+        $return = file_get_contents($url, false, $context);
 
         // reset time limit to the previous value
         set_time_limit($maxExecutionTime);
 
-        // $http_response_header is a predefined variables,
-        // automatically created by PHP after the call above
-        //
-        // @see http://php.net/manual/en/reserved.variables.httpresponseheader.php
-        /** @noinspection UnSafeIsSetOverArrayInspection */
+        /**
+         * $http_response_header is a predefined variables,
+         * automatically created by PHP after the call above.
+         *
+         * @see http://php.net/manual/en/reserved.variables.httpresponseheader.php
+         */
+        /* @noinspection UnSafeIsSetOverArrayInspection */
         if (isset($http_response_header) &&
-            is_array($http_response_header) &&
-            array_key_exists(0, $http_response_header)
+            \is_array($http_response_header) &&
+            \array_key_exists(0, $http_response_header)
         ) {
             // extract status from first array entry, e.g. from 'HTTP/1.1 200 OK'
             $statusParts = explode(' ', $http_response_header[0], 3);
@@ -78,24 +95,22 @@ class FileGetContents extends AbstractUpdaterRemote
     protected function getStreamContext()
     {
         // set basic stream context configuration
-        $config = array(
-            'http' => array(
-                'user_agent'    => $this->getUserAgent(),
+        $config = [
+            'http' => [
+                'user_agent' => $this->getUserAgent(),
                 // ignore errors, handle them manually
                 'ignore_errors' => true,
-            )
-        );
+            ],
+        ];
 
         // check and set proxy settings
         $proxyHost = $this->getOption('ProxyHost');
-        if ($proxyHost !== null) {
+        if (null !== $proxyHost) {
             // check for supported protocol
             $proxyProtocol = $this->getOption('ProxyProtocol');
-            if ($proxyProtocol !== null) {
-                if (!in_array($proxyProtocol, array(self::PROXY_PROTOCOL_HTTP, self::PROXY_PROTOCOL_HTTPS), true)) {
-                    throw new \RuntimeException(
-                        "Invalid/unsupported value '$proxyProtocol' for option 'ProxyProtocol'."
-                    );
+            if (null !== $proxyProtocol) {
+                if (!\in_array($proxyProtocol, [self::PROXY_PROTOCOL_HTTP, self::PROXY_PROTOCOL_HTTPS], true)) {
+                    throw new \RuntimeException("Invalid/unsupported value '$proxyProtocol' for option 'ProxyProtocol'.");
                 }
             } else {
                 $proxyProtocol = self::PROXY_PROTOCOL_HTTP;
@@ -103,16 +118,16 @@ class FileGetContents extends AbstractUpdaterRemote
 
             // prepare port for the proxy server address
             $proxyPort = $this->getOption('ProxyPort');
-            if ($proxyPort !== null) {
-                $proxyPort = ':' . $proxyPort;
-            } /** @noinspection DefaultValueInElseBranchInspection */ else {
+            if (null !== $proxyPort) {
+                $proxyPort = ':'.$proxyPort;
+            } /* @noinspection DefaultValueInElseBranchInspection */ else {
                 $proxyPort = '';
             }
 
             // check auth settings
             $proxyAuth = $this->getOption('ProxyAuth');
-            if ($proxyAuth !== null) {
-                if ($proxyAuth !== self::PROXY_AUTH_BASIC) {
+            if (null !== $proxyAuth) {
+                if (self::PROXY_AUTH_BASIC !== $proxyAuth) {
                     throw new \RuntimeException("Invalid/unsupported value '$proxyAuth' for option 'ProxyAuth'.");
                 }
             } else {
@@ -120,19 +135,19 @@ class FileGetContents extends AbstractUpdaterRemote
             }
 
             // set proxy server address
-            $config['http']['proxy'] = 'tcp://' . $proxyHost . $proxyPort;
+            $config['http']['proxy'] = 'tcp://'.$proxyHost.$proxyPort;
             // full uri required by some proxy servers
             $config['http']['request_fulluri'] = true;
 
             // add authorization header if required
             $proxyUser = $this->getOption('ProxyUser');
-            if ($proxyUser !== null) {
+            if (null !== $proxyUser) {
                 $proxyPassword = $this->getOption('ProxyPassword');
-                if ($proxyPassword === null) {
+                if (null === $proxyPassword) {
                     $proxyPassword = '';
                 }
-                $auth = base64_encode($proxyUser . ':' . $proxyPassword);
-                $config['http']['header'] = 'Proxy-Authorization: Basic ' . $auth;
+                $auth = base64_encode($proxyUser.':'.$proxyPassword);
+                $config['http']['header'] = 'Proxy-Authorization: Basic '.$auth;
             }
 
             // @todo Add SSL context options
@@ -140,6 +155,7 @@ class FileGetContents extends AbstractUpdaterRemote
             //if ($proxy_protocol === self::PROXY_PROTOCOL_HTTPS) {
             //}
         }
+
         return stream_context_create($config);
     }
 }

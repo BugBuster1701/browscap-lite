@@ -1,14 +1,26 @@
 <?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of a BugBuster Contao Bundle
+ *
+ * @copyright  Glen Langer 2020 <http://contao.ninja>
+ * @author     Glen Langer (BugBuster)
+ * @author     Christoph Ziegenberg (crossjoin/browscap)
+ * @package    Contao Browscap Lite Bundle
+ * @license    MIT
+ * @see        https://github.com/BugBuster1701/browscap-lite
+ */
+
 namespace BugBuster\Browscap\Updater;
 
 /**
- * Curl updater class
+ * Curl updater class.
  *
  * This class loads the source data using the curl extension.
  *
- * @package BugBuster\Browscap
- * @author Christoph Ziegenberg <christoph@ziegenberg.com>
- * @link https://github.com/crossjoin/browscap
+ * @see https://github.com/crossjoin/browscap
  */
 class Curl extends AbstractUpdaterRemote
 {
@@ -16,6 +28,7 @@ class Curl extends AbstractUpdaterRemote
      * Curl constructor.
      *
      * @param null $options
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct($options = null)
@@ -31,11 +44,13 @@ class Curl extends AbstractUpdaterRemote
     }
 
     /**
-     * Gets the data from a given URL (or false on failure)
+     * Gets the data from a given URL (or false on failure).
      *
      * @param string $url
-     * @return string|boolean
+     *
      * @throws \RuntimeException
+     *
+     * @return string|bool
      */
     protected function getRemoteData($url)
     {
@@ -51,14 +66,12 @@ class Curl extends AbstractUpdaterRemote
 
         // check and set proxy settings
         $proxyHost = $this->getOption('ProxyHost');
-        if ($proxyHost !== null) {
+        if (null !== $proxyHost) {
             // check for supported protocol
             $proxyProtocol = $this->getOption('ProxyProtocol');
-            if ($proxyProtocol !== null) {
-                if (!in_array($proxyProtocol, array(self::PROXY_PROTOCOL_HTTP, self::PROXY_PROTOCOL_HTTPS), true)) {
-                    throw new \RuntimeException(
-                        "Invalid/unsupported value '$proxyProtocol' for option 'ProxyProtocol'."
-                    );
+            if (null !== $proxyProtocol) {
+                if (!\in_array($proxyProtocol, [self::PROXY_PROTOCOL_HTTP, self::PROXY_PROTOCOL_HTTPS], true)) {
+                    throw new \RuntimeException("Invalid/unsupported value '$proxyProtocol' for option 'ProxyProtocol'.");
                 }
             } else {
                 $proxyProtocol = self::PROXY_PROTOCOL_HTTP;
@@ -68,28 +81,28 @@ class Curl extends AbstractUpdaterRemote
 
             // check auth settings
             $proxyAuth = $this->getOption('ProxyAuth');
-            if ($proxyAuth !== null) {
-                if (!in_array($proxyAuth, array(self::PROXY_AUTH_BASIC, self::PROXY_AUTH_NTLM), true)) {
+            if (null !== $proxyAuth) {
+                if (!\in_array($proxyAuth, [self::PROXY_AUTH_BASIC, self::PROXY_AUTH_NTLM], true)) {
                     throw new \RuntimeException("Invalid/unsupported value '$proxyAuth' for option 'ProxyAuth'.");
                 }
             } else {
                 $proxyAuth = self::PROXY_AUTH_BASIC;
             }
-            $proxyUser     = $this->getOption('ProxyUser');
+            $proxyUser = $this->getOption('ProxyUser');
             $proxyPassword = $this->getOption('ProxyPassword');
 
             // set basic proxy options
-            curl_setopt($curl, CURLOPT_PROXY, $proxyProtocol . '://' . $proxyHost);
-            if ($proxyPort !== null) {
+            curl_setopt($curl, CURLOPT_PROXY, $proxyProtocol.'://'.$proxyHost);
+            if (null !== $proxyPort) {
                 curl_setopt($curl, CURLOPT_PROXYPORT, $proxyPort);
             }
 
             // set proxy auth options
-            if ($proxyUser !== null) {
-                if ($proxyAuth === self::PROXY_AUTH_NTLM) {
+            if (null !== $proxyUser) {
+                if (self::PROXY_AUTH_NTLM === $proxyAuth) {
                     curl_setopt($curl, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
                 }
-                curl_setopt($curl, CURLOPT_PROXYUSERPWD, $proxyUser . ':' . $proxyPassword);
+                curl_setopt($curl, CURLOPT_PROXYUSERPWD, $proxyUser.':'.$proxyPassword);
             }
         }
 

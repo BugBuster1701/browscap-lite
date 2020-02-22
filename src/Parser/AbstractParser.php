@@ -1,4 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of a BugBuster Contao Bundle
+ *
+ * @copyright  Glen Langer 2020 <http://contao.ninja>
+ * @author     Glen Langer (BugBuster)
+ * @author     Christoph Ziegenberg (crossjoin/browscap)
+ * @package    Contao Browscap Lite Bundle
+ * @license    MIT
+ * @see        https://github.com/BugBuster1701/browscap-lite
+ */
+
 namespace BugBuster\Browscap\Parser;
 
 use BugBuster\Browscap\Browscap;
@@ -7,26 +21,24 @@ use BugBuster\Browscap\Cache\File;
 use BugBuster\Browscap\Formatter\FormatterInterface;
 
 /**
- * Abstract parser class
+ * Abstract parser class.
  *
  * The parser is the component, that parses a specific type of browscap source
  * data for the browser settings of a given user agent.
  *
- * @package BugBuster\Browscap
- * @author Christoph Ziegenberg <christoph@ziegenberg.com>
- * @link https://github.com/crossjoin/browscap
+ * @see https://github.com/crossjoin/browscap
  */
 abstract class AbstractParser
 {
     /**
-     * Detected browscap version (read from INI file)
+     * Detected browscap version (read from INI file).
      *
      * @var int
      */
     protected static $version;
 
     /**
-     * The cache instance
+     * The cache instance.
      *
      * @var CacheInterface
      */
@@ -38,6 +50,7 @@ abstract class AbstractParser
      * has to be set by the extending class, e.g. 'PHP_BrowscapINI'.
      *
      * @see http://browscap.org/
+     *
      * @var string
      */
     protected $sourceType = '';
@@ -48,6 +61,7 @@ abstract class AbstractParser
      * has to be set by the extending class, e.g. 'Lite_PHP_BrowscapINI'.
      *
      * @see http://browscap.org/
+     *
      * @var string
      */
     protected $sourceTypeSmall = '';
@@ -58,12 +72,13 @@ abstract class AbstractParser
      * has to be set by the extending class, e.g. 'Full_PHP_BrowscapINI'.
      *
      * @see http://browscap.org/
+     *
      * @var string
      */
     protected $sourceTypeLarge = '';
 
     /**
-     * Gets the type of source to use
+     * Gets the type of source to use.
      *
      * @return string
      */
@@ -80,7 +95,7 @@ abstract class AbstractParser
     }
 
     /**
-     * Gets the version of the Browscap data
+     * Gets the version of the Browscap data.
      *
      * @return int
      */
@@ -88,47 +103,47 @@ abstract class AbstractParser
 
     /**
      * Gets the browser data formatter for the given user agent
-     * (or null if no data available, no even the default browser)
+     * (or null if no data available, no even the default browser).
      *
      * @param string $userAgent
+     *
      * @return FormatterInterface|null
      */
     abstract public function getBrowser($userAgent);
 
     /**
-     * Gets a cache instance
+     * Gets a cache instance.
      *
      * @return CacheInterface
      */
     public static function getCache()
     {
-        if (static::$cache === null) {
+        if (null === static::$cache) {
             static::$cache = new File();
         }
+
         return static::$cache;
     }
 
     /**
-     * Sets a cache instance
-     *
-     * @param CacheInterface $cache
+     * Sets a cache instance.
      */
-    public static function setCache(CacheInterface $cache)
+    public static function setCache(CacheInterface $cache): void
     {
         static::$cache = $cache;
     }
 
     /**
-     * Checks if the source needs to be updated and processes the update
+     * Checks if the source needs to be updated and processes the update.
      *
-     * @param boolean $forceUpdate
+     * @param bool $forceUpdate
      */
     abstract public function update($forceUpdate = false);
 
     /**
-     * Resets cached data (e.g. the version) after an update of the source
+     * Resets cached data (e.g. the version) after an update of the source.
      */
-    public static function resetCachedData()
+    public static function resetCachedData(): void
     {
         static::$version = null;
     }

@@ -1,28 +1,40 @@
 <?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of a BugBuster Contao Bundle
+ *
+ * @copyright  Glen Langer 2020 <http://contao.ninja>
+ * @author     Glen Langer (BugBuster)
+ * @author     Christoph Ziegenberg (crossjoin/browscap)
+ * @package    Contao Browscap Lite Bundle
+ * @license    MIT
+ * @see        https://github.com/BugBuster1701/browscap-lite
+ */
+
 namespace BugBuster\Browscap\Updater;
 
 use BugBuster\Browscap\Browscap;
 
 /**
- * Abstract updater class (for remote sources)
+ * Abstract updater class (for remote sources).
  *
  * With class extends the abstract updater with methods that are required
  * or remote sources.
  *
- * @package BugBuster\Browscap
- * @author Christoph Ziegenberg <christoph@ziegenberg.com>
- * @link https://github.com/crossjoin/browscap
+ * @see https://github.com/crossjoin/browscap
  */
 abstract class AbstractUpdaterRemote extends AbstractUpdater
 {
-    const PROXY_PROTOCOL_HTTP  = 'http';
-    const PROXY_PROTOCOL_HTTPS = 'https';
+    public const PROXY_PROTOCOL_HTTP = 'http';
+    public const PROXY_PROTOCOL_HTTPS = 'https';
 
-    const PROXY_AUTH_BASIC     = 'basic';
-    const PROXY_AUTH_NTLM      = 'ntlm';
+    public const PROXY_AUTH_BASIC = 'basic';
+    public const PROXY_AUTH_NTLM = 'ntlm';
 
     /**
-     * The URL to get the current Browscap data (in the configured format)
+     * The URL to get the current Browscap data (in the configured format).
      *
      * @var string
      */
@@ -30,14 +42,14 @@ abstract class AbstractUpdaterRemote extends AbstractUpdater
 
     /**
      * The URL to detect the current Browscap version
-     * (time string like 'Thu, 08 May 2014 07:17:44 +0000' that is converted to a time stamp)
+     * (time string like 'Thu, 08 May 2014 07:17:44 +0000' that is converted to a time stamp).
      *
      * @var string
      */
     protected $browscapVersionUrl = 'http://browscap.org/version';
 
     /**
-     * The URL to detect the current Browscap version number
+     * The URL to detect the current Browscap version number.
      *
      * @var string
      */
@@ -45,7 +57,7 @@ abstract class AbstractUpdaterRemote extends AbstractUpdater
 
     /**
      * The user agent to include in the requests made by the class during the
-     * update process. (Based on the user agent in the official Browscap-PHP class)
+     * update process. (Based on the user agent in the official Browscap-PHP class).
      *
      * @var string
      */
@@ -55,6 +67,7 @@ abstract class AbstractUpdaterRemote extends AbstractUpdater
      * AbstractUpdaterRemote constructor.
      *
      * @param array|null $options
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct($options = null)
@@ -63,25 +76,48 @@ abstract class AbstractUpdaterRemote extends AbstractUpdater
 
         // add additional options
         $this->options['ProxyProtocol'] = null;
-        $this->options['ProxyHost']     = null;
-        $this->options['ProxyPort']     = null;
-        $this->options['ProxyAuth']     = null;
-        $this->options['ProxyUser']     = null;
+        $this->options['ProxyHost'] = null;
+        $this->options['ProxyPort'] = null;
+        $this->options['ProxyAuth'] = null;
+        $this->options['ProxyUser'] = null;
         $this->options['ProxyPassword'] = null;
     }
 
     /**
-     * Gets the current browscap version (time stamp)
+     * Gets the current browscap version (time stamp).
      *
      * @return int
      */
     public function getBrowscapVersion()
     {
-        return (int)strtotime($this->getRemoteData($this->getBrowscapVersionUrl()));
+        return (int) strtotime($this->getRemoteData($this->getBrowscapVersionUrl()));
     }
 
     /**
-     * Gets the URL for requesting the current browscap version (time string)
+     * Gets the current browscap version number.
+     *
+     * @return int
+     */
+    public function getBrowscapVersionNumber()
+    {
+        return (int) $this->getRemoteData($this->getBrowscapVersionNumberUrl());
+    }
+
+    /**
+     * Gets the browscap data of the used source type.
+     *
+     * @return string
+     */
+    public function getBrowscapSource()
+    {
+        $type = Browscap::getParser()->getSourceType();
+        $url = str_replace('%t', urlencode($type), $this->getBrowscapSourceUrl());
+
+        return $this->getRemoteData($url);
+    }
+
+    /**
+     * Gets the URL for requesting the current browscap version (time string).
      *
      * @return string
      */
@@ -91,17 +127,7 @@ abstract class AbstractUpdaterRemote extends AbstractUpdater
     }
 
     /**
-     * Gets the current browscap version number
-     *
-     * @return int
-     */
-    public function getBrowscapVersionNumber()
-    {
-        return (int)$this->getRemoteData($this->getBrowscapVersionNumberUrl());
-    }
-
-    /**
-     * Gets the URL for requesting the current browscap version number
+     * Gets the URL for requesting the current browscap version number.
      *
      * @return string
      */
@@ -111,20 +137,7 @@ abstract class AbstractUpdaterRemote extends AbstractUpdater
     }
 
     /**
-     * Gets the browscap data of the used source type
-     *
-     * @return string
-     */
-    public function getBrowscapSource()
-    {
-        $type = Browscap::getParser()->getSourceType();
-        $url  = str_replace('%t', urlencode($type), $this->getBrowscapSourceUrl());
-
-        return $this->getRemoteData($url);
-    }
-
-    /**
-     * Gets the URL for requesting the browscap data
+     * Gets the URL for requesting the browscap data.
      *
      * @return string
      */
@@ -135,30 +148,32 @@ abstract class AbstractUpdaterRemote extends AbstractUpdater
 
     /**
      * Format the user agent string to be used in the remote requests made by the
-     * class during the update process
+     * class during the update process.
      *
      * @return string
      */
     protected function getUserAgent()
     {
         return str_replace(
-            array('%v', '%m'),
-            array(Browscap::VERSION, $this->getUpdateMethod()),
+            ['%v', '%m'],
+            [Browscap::VERSION, $this->getUpdateMethod()],
             $this->userAgent
         );
     }
 
     /**
-     * Gets the exception to throw if the given HTTP status code is an error code (4xx or 5xx)
+     * Gets the exception to throw if the given HTTP status code is an error code (4xx or 5xx).
      *
-     * @param int $httpCode
+     * @param int  $httpCode
      * @param bool $throwException
-     * @return \RuntimeException|null
+     *
      * @throws \RuntimeException
+     *
+     * @return \RuntimeException|null
      */
     protected function getHttpErrorException($httpCode, $throwException = false)
     {
-        $httpCode = (int)$httpCode;
+        $httpCode = (int) $httpCode;
 
         $result = null;
         if ($httpCode >= 400) {
@@ -191,19 +206,20 @@ abstract class AbstractUpdaterRemote extends AbstractUpdater
             $throwException = false;
         }
 
-        if ($throwException === true) {
-            /** @var \RuntimeException $result */
+        if (true === $throwException) {
+            /* @var \RuntimeException $result */
             throw $result;
-        } else {
-            return $result;
         }
+
+        return $result;
     }
 
     /**
-     * Gets the data from a given URL (or false on failure)
+     * Gets the data from a given URL (or false on failure).
      *
      * @param string $url
-     * @return string|boolean
+     *
+     * @return string|bool
      */
     abstract protected function getRemoteData($url);
 }

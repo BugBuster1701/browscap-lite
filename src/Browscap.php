@@ -1,10 +1,24 @@
 <?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of a BugBuster Contao Bundle
+ *
+ * @copyright  Glen Langer 2020 <http://contao.ninja>
+ * @author     Glen Langer (BugBuster)
+ * @author     Christoph Ziegenberg (crossjoin/browscap)
+ * @package    Contao Browscap Lite Bundle
+ * @license    MIT
+ * @see        https://github.com/BugBuster1701/browscap-lite
+ */
+
 namespace BugBuster\Browscap;
 
 use BugBuster\Browscap\Formatter\FormatterInterface;
 
 /**
- * Main BugBuster\Browscap class
+ * Main BugBuster\Browscap class.
  *
  * BugBuster\Browscap allows to check for browser settings, using the data
  * from the Browscap project (browscap.org). It's about 40x faster than the
@@ -14,9 +28,7 @@ use BugBuster\Browscap\Formatter\FormatterInterface;
  * or replace nearly all components: the updater, the parser (including the
  * used source), and the formatter (for the result set).
  *
- * @package BugBuster\Browscap
- * @author Christoph Ziegenberg <christoph@ziegenberg.com>
- * @link https://github.com/crossjoin/browscap
+ * @see https://github.com/crossjoin/browscap
  */
 class Browscap
 {
@@ -24,38 +36,38 @@ class Browscap
      * Current version of the package.
      * Has to be updated to automatically renew cache data.
      */
-    const VERSION = '1.0.6';
+    public const VERSION = '1.0.6';
 
     /**
-     * Data set types
+     * Data set types.
      */
-    const DATASET_TYPE_DEFAULT = 1;
-    const DATASET_TYPE_SMALL   = 2;
-    const DATASET_TYPE_LARGE   = 3;
+    public const DATASET_TYPE_DEFAULT = 1;
+    public const DATASET_TYPE_SMALL = 2;
+    public const DATASET_TYPE_LARGE = 3;
 
     /**
-     * Use automatic updates (if no explicit updater set)
+     * Use automatic updates (if no explicit updater set).
      *
      * @var \BugBuster\Browscap\Updater\AbstractUpdater
      */
     protected $autoUpdate;
 
     /**
-     * Updater to use
+     * Updater to use.
      *
      * @var \BugBuster\Browscap\Updater\AbstractUpdater
      */
     protected static $updater;
 
     /**
-     * Parser to use
+     * Parser to use.
      *
      * @var \BugBuster\Browscap\Parser\AbstractParser
      */
     protected static $parser;
 
     /**
-     * Formatter to use
+     * Formatter to use.
      *
      * @var FormatterInterface
      */
@@ -68,49 +80,50 @@ class Browscap
     protected static $datasetType = self::DATASET_TYPE_DEFAULT;
 
     /**
-     * Probability in percent that the update check is done
+     * Probability in percent that the update check is done.
      *
      * @var float
      */
     protected $updateProbability = 1.0;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param bool $autoUpdate
      */
     public function __construct($autoUpdate = true)
     {
-        $this->autoUpdate = (bool)(int)$autoUpdate;
+        $this->autoUpdate = (bool) (int) $autoUpdate;
     }
 
     /**
      * Checks the given/detected user agent and returns a
-     * formatter instance with the detected settings
+     * formatter instance with the detected settings.
      *
      * @param string $userAgent
+     *
      * @return FormatterInterface
      */
     public function getBrowser($userAgent = null)
     {
         // automatically detect the user agent
-        if ($userAgent === null) {
+        if (null === $userAgent) {
             $userAgent = '';
-            if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
+            if (\array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
                 $userAgent = $_SERVER['HTTP_USER_AGENT'];
             }
         }
 
         // check for update first
-        if ($this->autoUpdate === true) {
+        if (true === $this->autoUpdate) {
             $randomMax = floor(100 / $this->updateProbability);
-            if (function_exists('random_int')) {
+            if (\function_exists('random_int')) {
                 $randomInt = random_int(1, $randomMax);
             } else {
                 /** @noinspection RandomApiMigrationInspection */
-                $randomInt = mt_rand(1, $randomMax);
+                $randomInt = random_int(1, $randomMax);
             }
-            if ($randomInt === 1) {
+            if (1 === $randomInt) {
                 static::getParser()->update();
             }
         }
@@ -121,7 +134,7 @@ class Browscap
         // if not found, there has to be a problem with the source data,
         // because normally default browser data are returned,
         // so set the probability to 100%, to force an update.
-        if ($return === null && $this->updateProbability < 100) {
+        if (null === $return && $this->updateProbability < 100) {
             $updateProbability = $this->updateProbability;
             $this->updateProbability = 100;
             $return = $this->getBrowser($userAgent);
@@ -130,7 +143,7 @@ class Browscap
 
         // if return is still NULL, updates are disabled... in this
         // case we return an empty formatter instance
-        if ($return === null) {
+        if (null === $return) {
             $return = static::getFormatter();
         }
 
@@ -138,11 +151,9 @@ class Browscap
     }
 
     /**
-     * Set the formatter instance to use for the getBrowser() result
-     *
-     * @param FormatterInterface $formatter
+     * Set the formatter instance to use for the getBrowser() result.
      */
-    public static function setFormatter(FormatterInterface $formatter)
+    public static function setFormatter(FormatterInterface $formatter): void
     {
         static::$formatter = $formatter;
     }
@@ -152,18 +163,19 @@ class Browscap
      */
     public static function getFormatter()
     {
-        if (static::$formatter === null) {
+        if (null === static::$formatter) {
             static::setFormatter(new Formatter\PhpGetBrowser());
         }
+
         return static::$formatter;
     }
 
     /**
-     * Sets the parser instance to use
+     * Sets the parser instance to use.
      *
      * @param \BugBuster\Browscap\Parser\AbstractParser $parser
      */
-    public static function setParser(Parser\AbstractParser $parser)
+    public static function setParser(Parser\AbstractParser $parser): void
     {
         static::$parser = $parser;
     }
@@ -173,7 +185,7 @@ class Browscap
      */
     public static function getParser()
     {
-        if (static::$parser === null) {
+        if (null === static::$parser) {
             // generators are supported from PHP 5.5, so select the correct parser version to use
             // (the version without generators requires about 2-3x the memory and is a bit slower)
             if (version_compare(PHP_VERSION, '5.5.0') >= 0) {
@@ -182,48 +194,52 @@ class Browscap
                 static::setParser(new Parser\IniLt55());
             }
         }
+
         return static::$parser;
     }
 
     /**
-     * Sets the updater instance to use
+     * Sets the updater instance to use.
      *
      * @param \BugBuster\Browscap\Updater\AbstractUpdater $updater
      */
-    public static function setUpdater(Updater\AbstractUpdater $updater)
+    public static function setUpdater(Updater\AbstractUpdater $updater): void
     {
         static::$updater = $updater;
     }
 
     /**
-     * Gets the updater instance (and initializes the default one, if not set)
+     * Gets the updater instance (and initializes the default one, if not set).
      *
-     * @return \BugBuster\Browscap\Updater\AbstractUpdater
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     *
+     * @return \BugBuster\Browscap\Updater\AbstractUpdater
      */
     public static function getUpdater()
     {
-        if (static::$updater === null) {
+        if (null === static::$updater) {
             $updater = Updater\FactoryUpdater::getInstance();
-            if ($updater !== null) {
+            if (null !== $updater) {
                 static::setUpdater($updater);
             }
         }
+
         return static::$updater;
     }
 
     /**
      * Sets the data set type to use for the source.
      *
-     * @param integer $dataSetType
+     * @param int $dataSetType
+     *
      * @throws \InvalidArgumentException
      */
-    public static function setDataSetType($dataSetType)
+    public static function setDataSetType($dataSetType): void
     {
-        if (in_array(
+        if (\in_array(
             $dataSetType,
-            array(self::DATASET_TYPE_DEFAULT, self::DATASET_TYPE_SMALL, self::DATASET_TYPE_LARGE),
+            [self::DATASET_TYPE_DEFAULT, self::DATASET_TYPE_SMALL, self::DATASET_TYPE_LARGE],
             true
         )) {
             static::$datasetType = $dataSetType;
@@ -235,7 +251,7 @@ class Browscap
     /**
      * Gets the data set type to use for the source.
      *
-     * @return integer
+     * @return int
      */
     public static function getDataSetType()
     {
@@ -245,9 +261,9 @@ class Browscap
     /**
      * Triggers an update check (with the option to force an update).
      *
-     * @param boolean $forceUpdate
+     * @param bool $forceUpdate
      */
-    public static function update($forceUpdate = false)
+    public static function update($forceUpdate = false): void
     {
         static::getParser()->update($forceUpdate);
     }

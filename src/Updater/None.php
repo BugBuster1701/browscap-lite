@@ -1,14 +1,26 @@
 <?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of a BugBuster Contao Bundle
+ *
+ * @copyright  Glen Langer 2020 <http://contao.ninja>
+ * @author     Glen Langer (BugBuster)
+ * @author     Christoph Ziegenberg (crossjoin/browscap)
+ * @package    Contao Browscap Lite Bundle
+ * @license    MIT
+ * @see        https://github.com/BugBuster1701/browscap-lite
+ */
+
 namespace BugBuster\Browscap\Updater;
 
 /**
- * None updater class
+ * None updater class.
  *
  * This updater does nothing, so if you set it, the source data won't be updated.
  *
- * @package BugBuster\Browscap
- * @author Christoph Ziegenberg <christoph@ziegenberg.com>
- * @link https://github.com/crossjoin/browscap
+ * @see https://github.com/crossjoin/browscap
  */
 class None extends AbstractUpdater
 {
@@ -16,6 +28,7 @@ class None extends AbstractUpdater
      * None constructor.
      *
      * @param null $options
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct($options = null)
@@ -27,7 +40,7 @@ class None extends AbstractUpdater
     }
 
     /**
-     * Gets the current browscap version (time stamp)
+     * Gets the current browscap version (time stamp).
      *
      * @return int
      */
@@ -37,7 +50,7 @@ class None extends AbstractUpdater
     }
 
     /**
-     * Gets the current browscap version number (if possible for the source)
+     * Gets the current browscap version number (if possible for the source).
      *
      * @return int|null
      */
@@ -47,9 +60,9 @@ class None extends AbstractUpdater
     }
 
     /**
-     * Gets the browscap data of the used source type
+     * Gets the browscap data of the used source type.
      *
-     * @return string|boolean
+     * @return string|bool
      */
     public function getBrowscapSource()
     {
