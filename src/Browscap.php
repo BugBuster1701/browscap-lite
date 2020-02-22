@@ -28,7 +28,6 @@ use BugBuster\Browscap\Formatter\FormatterInterface;
  * or replace nearly all components: the updater, the parser (including the
  * used source), and the formatter (for the result set).
  *
- * @see https://github.com/crossjoin/browscap
  */
 class Browscap
 {

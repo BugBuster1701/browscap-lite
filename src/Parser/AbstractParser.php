@@ -26,7 +26,6 @@ use BugBuster\Browscap\Formatter\FormatterInterface;
  * The parser is the component, that parses a specific type of browscap source
  * data for the browser settings of a given user agent.
  *
- * @see https://github.com/crossjoin/browscap
  */
 abstract class AbstractParser
 {

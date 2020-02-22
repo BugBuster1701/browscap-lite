@@ -20,7 +20,6 @@ namespace BugBuster\Browscap\Updater;
  *
  * This class loads the source data using the curl extension.
  *
- * @see https://github.com/crossjoin/browscap
  */
 class Curl extends AbstractUpdaterRemote
 {

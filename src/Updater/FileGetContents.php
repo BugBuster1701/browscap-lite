@@ -22,7 +22,6 @@ namespace BugBuster\Browscap\Updater;
  * Please note, that this requires 'allow_url_fopen' set to '1' to work
  * with remote files.
  *
- * @see https://github.com/crossjoin/browscap
  */
 class FileGetContents extends AbstractUpdaterRemote
 {

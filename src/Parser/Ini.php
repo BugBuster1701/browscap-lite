@@ -21,7 +21,6 @@ namespace BugBuster\Browscap\Parser;
  * This parser overwrites parts of the basic ini parser class to use special
  * features form PHP 5.5 (generators) to optimize memory usage and performance.
  *
- * @see https://github.com/crossjoin/browscap
  */
 class Ini extends IniLt55
 {

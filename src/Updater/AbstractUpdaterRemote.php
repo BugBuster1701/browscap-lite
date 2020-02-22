@@ -23,7 +23,6 @@ use BugBuster\Browscap\Browscap;
  * With class extends the abstract updater with methods that are required
  * or remote sources.
  *
- * @see https://github.com/crossjoin/browscap
  */
 abstract class AbstractUpdaterRemote extends AbstractUpdater
 {

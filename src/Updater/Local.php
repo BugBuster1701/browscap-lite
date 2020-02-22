@@ -21,7 +21,6 @@ namespace BugBuster\Browscap\Updater;
  * This class loads the source data from a local file, which need to be set
  * via the options.
  *
- * @see https://github.com/crossjoin/browscap
  */
 class Local extends AbstractUpdater
 {

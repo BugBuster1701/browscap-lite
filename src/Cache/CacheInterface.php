@@ -22,7 +22,6 @@ namespace BugBuster\Browscap\Cache;
  * So all we have are four basic methods, all with an option to cache the
  * data in dependence of the current version.
  *
- * @see https://github.com/crossjoin/browscap
  */
 interface CacheInterface
 {

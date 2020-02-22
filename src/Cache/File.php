@@ -23,7 +23,6 @@ use BugBuster\Browscap\Browscap;
  * The file cache is the basic cache adapter that is used by default, because
  * it's always available.
  *
- * @see https://github.com/crossjoin/browscap
  */
 class File implements CacheInterface
 {

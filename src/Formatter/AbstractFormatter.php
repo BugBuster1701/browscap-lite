@@ -22,7 +22,6 @@ namespace BugBuster\Browscap\Formatter;
  * array into the preferred format. It can also be used to unset unnecessary
  * data or extend the result with additional data from other sources.
  *
- * @see https://github.com/crossjoin/browscap
  * @deprecated implement FormatterInterface instead
  */
 abstract class AbstractFormatter implements FormatterInterface

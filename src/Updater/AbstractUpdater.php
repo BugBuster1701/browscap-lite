@@ -23,7 +23,6 @@ namespace BugBuster\Browscap\Updater;
  * (in most cases) also the version number. It also offers to set individual
  * options for each type of updater.
  *
- * @see https://github.com/crossjoin/browscap
  */
 abstract class AbstractUpdater
 {

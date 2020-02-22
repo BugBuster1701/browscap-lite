@@ -22,7 +22,6 @@ namespace BugBuster\Browscap\Updater;
  * updater instance (except the local updater, which requires additional
  * settings and can therefore only be set manually).
  *
- * @see https://github.com/crossjoin/browscap
  */
 class FactoryUpdater
 {

@@ -20,7 +20,6 @@ namespace BugBuster\Browscap\Updater;
  *
  * This updater does nothing, so if you set it, the source data won't be updated.
  *
- * @see https://github.com/crossjoin/browscap
  */
 class None extends AbstractUpdater
 {

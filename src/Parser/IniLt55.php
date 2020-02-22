@@ -28,7 +28,6 @@ use BugBuster\Browscap\Updater;
  * the file cache, because in most cases we work with files line by line
  * instead of using arrays, to keep the memory consumption as low as possible.
  *
- * @see https://github.com/crossjoin/browscap
  */
 class IniLt55 extends AbstractParser
 {
