@@ -26,7 +26,6 @@ namespace BugBuster\Browscap\Formatter;
  * replaced. The regular expression itself is the same.
  *
  * @see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=612364
- * @see https://github.com/crossjoin/browscap
  */
 class PhpGetBrowserArray implements FormatterInterface
 {
