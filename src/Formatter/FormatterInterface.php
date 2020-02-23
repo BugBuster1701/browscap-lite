@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /*
- * This file is part of a BugBuster Contao Bundle
+ * This file is part of a BugBuster Library
  *
  * @copyright  Glen Langer 2020 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @author     Christoph Ziegenberg (crossjoin/browscap)
- * @package    Contao Browscap Lite Bundle
+ * @package    Browscap Lite Library
  * @license    MIT
  * @see        https://github.com/BugBuster1701/browscap-lite
  */
@@ -21,7 +21,6 @@ namespace BugBuster\Browscap\Formatter;
  * The formatter is used to convert the basic browscap settings
  * array into the preferred format. It can also be used to unset unnecessary
  * data or extend the result with additional data from other sources.
- *
  */
 interface FormatterInterface
 {

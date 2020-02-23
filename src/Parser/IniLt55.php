@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /*
- * This file is part of a BugBuster Contao Bundle
+ * This file is part of a BugBuster Library
  *
  * @copyright  Glen Langer 2020 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @author     Christoph Ziegenberg (crossjoin/browscap)
- * @package    Contao Browscap Lite Bundle
+ * @package    Browscap Lite Library
  * @license    MIT
  * @see        https://github.com/BugBuster1701/browscap-lite
  */
@@ -27,7 +27,6 @@ use BugBuster\Browscap\Updater;
  * This parser uses the standard PHP browscap.ini as its source. It requires
  * the file cache, because in most cases we work with files line by line
  * instead of using arrays, to keep the memory consumption as low as possible.
- *
  */
 class IniLt55 extends AbstractParser
 {

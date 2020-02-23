@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /*
- * This file is part of a BugBuster Contao Bundle
+ * This file is part of a BugBuster Library
  *
  * @copyright  Glen Langer 2020 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @author     Christoph Ziegenberg (crossjoin/browscap)
- * @package    Contao Browscap Lite Bundle
+ * @package    Browscap Lite Library
  * @license    MIT
  * @see        https://github.com/BugBuster1701/browscap-lite
  */
@@ -22,7 +22,6 @@ use BugBuster\Browscap\Browscap;
  *
  * The file cache is the basic cache adapter that is used by default, because
  * it's always available.
- *
  */
 class File implements CacheInterface
 {

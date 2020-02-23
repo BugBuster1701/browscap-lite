@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /*
- * This file is part of a BugBuster Contao Bundle
+ * This file is part of a BugBuster Library
  *
  * @copyright  Glen Langer 2020 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @author     Christoph Ziegenberg (crossjoin/browscap)
- * @package    Contao Browscap Lite Bundle
+ * @package    Browscap Lite Library
  * @license    MIT
  * @see        https://github.com/BugBuster1701/browscap-lite
  */
@@ -20,7 +20,6 @@ namespace BugBuster\Browscap\Parser;
  *
  * This parser overwrites parts of the basic ini parser class to use special
  * features form PHP 5.5 (generators) to optimize memory usage and performance.
- *
  */
 class Ini extends IniLt55
 {

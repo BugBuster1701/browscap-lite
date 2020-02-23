@@ -1,12 +1,12 @@
 <?php
 
 $header = <<<EOF
-This file is part of a BugBuster Contao Bundle
+This file is part of a BugBuster Library
 
 @copyright  Glen Langer 2020 <http://contao.ninja>
 @author     Glen Langer (BugBuster)
 @author     Christoph Ziegenberg (crossjoin/browscap)
-@package    Contao Browscap Lite Bundle
+@package    Browscap Lite Library
 @license    MIT
 @see        https://github.com/BugBuster1701/browscap-lite
 EOF;

@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /*
- * This file is part of a BugBuster Contao Bundle
+ * This file is part of a BugBuster Library
  *
  * @copyright  Glen Langer 2020 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @author     Christoph Ziegenberg (crossjoin/browscap)
- * @package    Contao Browscap Lite Bundle
+ * @package    Browscap Lite Library
  * @license    MIT
  * @see        https://github.com/BugBuster1701/browscap-lite
  */
@@ -21,7 +21,6 @@ namespace BugBuster\Browscap\Cache;
  * This cache class is very simple, because the cache we use never expires.
  * So all we have are four basic methods, all with an option to cache the
  * data in dependence of the current version.
- *
  */
 interface CacheInterface
 {

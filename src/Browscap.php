@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 /*
- * This file is part of a BugBuster Contao Bundle
+ * This file is part of a BugBuster Library
  *
  * @copyright  Glen Langer 2020 <http://contao.ninja>
  * @author     Glen Langer (BugBuster)
  * @author     Christoph Ziegenberg (crossjoin/browscap)
- * @package    Contao Browscap Lite Bundle
+ * @package    Browscap Lite Library
  * @license    MIT
  * @see        https://github.com/BugBuster1701/browscap-lite
  */
@@ -27,7 +27,6 @@ use BugBuster\Browscap\Formatter\FormatterInterface;
  * It includes automatic updates of the Browscap data and allows to extends
  * or replace nearly all components: the updater, the parser (including the
  * used source), and the formatter (for the result set).
- *
  */
 class Browscap
 {
@@ -116,12 +115,7 @@ class Browscap
         // check for update first
         if (true === $this->autoUpdate) {
             $randomMax = floor(100 / $this->updateProbability);
-            if (\function_exists('random_int')) {
-                $randomInt = random_int(1, $randomMax);
-            } else {
-                /** @noinspection RandomApiMigrationInspection */
-                $randomInt = random_int(1, $randomMax);
-            }
+            $randomInt = random_int(1, $randomMax);
             if (1 === $randomInt) {
                 static::getParser()->update();
             }
@@ -185,13 +179,7 @@ class Browscap
     public static function getParser()
     {
         if (null === static::$parser) {
-            // generators are supported from PHP 5.5, so select the correct parser version to use
-            // (the version without generators requires about 2-3x the memory and is a bit slower)
-            if (version_compare(PHP_VERSION, '5.5.0') >= 0) {
-                static::setParser(new Parser\Ini());
-            } else {
-                static::setParser(new Parser\IniLt55());
-            }
+            static::setParser(new Parser\Ini());
         }
 
         return static::$parser;
