@@ -89,7 +89,7 @@ class Browscap
      *
      * @param bool $autoUpdate
      */
-    public function __construct($autoUpdate = true)
+    public function __construct($autoUpdate = false)
     {
         $this->autoUpdate = (bool) (int) $autoUpdate;
     }
