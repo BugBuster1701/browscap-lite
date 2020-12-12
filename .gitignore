@@ -6,3 +6,4 @@
 src/vendor/
 src/composer.json
 composer.lock
+.phplint-cache
