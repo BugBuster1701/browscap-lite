@@ -153,7 +153,7 @@ class File implements CacheInterface
         if (true === $withVersion) {
             $path .= \DIRECTORY_SEPARATOR.$subDirName;
             $path .= '_v'.Browscap::getParser()->getVersion();
-            $path .= '_'.Browscap::VERSION;
+            $path .= '_'.Browscap::API_VERSION;
         }
 
         if (true === $createDir && !file_exists($path)) {

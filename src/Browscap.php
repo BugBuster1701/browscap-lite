@@ -34,7 +34,13 @@ class Browscap
      * Current version of the package.
      * Has to be updated to automatically renew cache data.
      */
-    public const VERSION = '1.1.0';
+    public const VERSION = '1.1.2';
+
+    /**
+     * API / Interface Version
+     * Used by directory naming for largebrowscap.ini
+     */
+    public const API_VERSION = '1.1.0';
 
     /**
      * Data set types.
