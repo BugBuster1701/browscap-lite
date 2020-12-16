@@ -38,7 +38,7 @@ class Browscap
 
     /**
      * API / Interface Version
-     * Used by directory naming for largebrowscap.ini
+     * Used by directory naming for largebrowscap.ini.
      */
     public const API_VERSION = '1.1.0';
 
